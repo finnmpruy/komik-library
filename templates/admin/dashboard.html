@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: #f5f7fb;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+            width: 260px;
+            height: 100vh;
+            background: #0d6efd;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 20px;
+            color: white;
+        }
+
+        .sidebar h2{
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .sidebar a{
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover{
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* MAIN */
+
+        .main-content{
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        /* NAVBAR */
+
+        .topbar{
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        /* CARD */
+
+        .dashboard-card{
+            border: none;
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card-blue{
+            background: linear-gradient(135deg, #4e73df, #224abe);
+        }
+
+        .card-green{
+            background: linear-gradient(135deg, #1cc88a, #13855c);
+        }
+
+        .card-orange{
+            background: linear-gradient(135deg, #f6c23e, #dda20a);
+        }
+
+        .dashboard-card h5{
+            font-size: 16px;
+        }
+
+        .dashboard-card h2{
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>📚 Komik Library</h2>
+
+        <a href="#">
+            Dashboard
+        </a>
+
+        <a href="#">
+            Kelola Buku
+        </a>
+
+        <a href="#">
+            Kelola User
+        </a>
+
+        <a href="#">
+            Data Peminjaman
+        </a>
+
+        <a href="#">
+            Logout
+        </a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <h4>
+                Selamat Datang Admin 👋
+            </h4>
+
+            <p class="text-muted mb-0">
+                Sistem Peminjaman Buku Komik
+            </p>
+
+        </div>
+
+        <!-- CARD STATISTIK -->
+
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+
+                <div class="dashboard-card card-blue">
+
+                    <h5>Total Buku</h5>
+
+                    <h2>120</h2>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mb-4">
+
+                <div class="dashboard-card card-green">
+
+                    <h5>Total User</h5>
+
+                    <h2>35</h2>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mb-4">
+
+                <div class="dashboard-card card-orange">
+
+                    <h5>Total Peminjaman</h5>
+
+                    <h2>87</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

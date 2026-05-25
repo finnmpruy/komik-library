@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{{ .title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body{
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-card{
+            width: 100%;
+            max-width: 420px;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            background: white;
+        }
+
+        .register-header{
+            background: #0d6efd;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .register-header h2{
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .register-header p{
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .register-body{
+            padding: 35px;
+        }
+
+        .form-control{
+            height: 50px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .btn-register{
+            height: 50px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-register:hover{
+            transform: translateY(-2px);
+        }
+
+        .logo-icon{
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            font-size: 30px;
+        }
+
+        .footer-text{
+            text-align: center;
+            font-size: 13px;
+            color: gray;
+            margin-top: 20px;
+        }
+
+        .login-link{
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .login-link a{
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+
+        <div class="register-header">
+
+            <div class="logo-icon">
+                📚
+            </div>
+
+            <h2>Create Account</h2>
+
+            <p>Daftar untuk meminjam buku komik</p>
+
+        </div>
+
+        <div class="register-body">
+
+            <form action="/register" method="POST">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nama Lengkap
+                    </label>
+
+                    <input 
+                        type="text" 
+                        name="nama"
+                        class="form-control"
+                        placeholder="Masukkan nama lengkap"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input 
+                        type="email" 
+                        name="email"
+                        class="form-control"
+                        placeholder="Masukkan email"
+                        required
+                    >
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Password
+                    </label>
+
+                    <input 
+                        type="password" 
+                        name="password"
+                        class="form-control"
+                        placeholder="Masukkan password"
+                        required
+                    >
+
+                </div>
+
+                <button class="btn btn-primary btn-register w-100">
+                    Register
+                </button>
+
+            </form>
+
+            <!-- LOGIN LINK -->
+            <div class="login-link">
+
+                <span>
+                    Sudah punya akun?
+                </span>
+
+                <a href="/login">
+                    Login disini
+                </a>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer-text">
+                © 2026 Komik Library
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
