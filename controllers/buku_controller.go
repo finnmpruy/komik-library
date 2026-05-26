@@ -5,35 +5,45 @@ import (
 	"strconv"
 	"time"
 
+	"komik-library/config"
 	"komik-library/models"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Home(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Komik Library",
-	})
-}
-
+// LIST BUKU
 func IndexBuku(c *gin.Context) {
 	var buku []models.Buku
-	db.Find(&buku)
+	config.DB.Find(&buku)
 
-	c.HTML(http.StatusOK, "buku/index.html", gin.H{
-		"title": "Data Buku",
+	status := c.Query("status")
+	flashMessage := ""
+
+	if status == "create" {
+		flashMessage = "Berhasil menambahkan buku baru!"
+	} else if status == "update" {
+		flashMessage = "Berhasil memperbarui data buku!"
+	} else if status == "delete" {
+		flashMessage = "Berhasil menghapus buku!"
+	}
+
+	c.HTML(200, "index.html", gin.H{
+		"title": "Kelola Buku",
 		"data":  buku,
+		"flash": flashMessage,
 	})
 }
 
+// FORM CREATE
 func CreateBuku(c *gin.Context) {
-	c.HTML(http.StatusOK, "buku/create.html", gin.H{
+
+	c.HTML(200, "create.html", gin.H{
 		"title": "Tambah Buku",
 	})
 }
 
+// STORE
 func StoreBuku(c *gin.Context) {
-
 	judul := c.PostForm("judul")
 	penulis := c.PostForm("penulis")
 	penerbit := c.PostForm("penerbit")
@@ -41,13 +51,17 @@ func StoreBuku(c *gin.Context) {
 	deskripsi := c.PostForm("deskripsi")
 	stok := c.PostForm("stok")
 
+	// Ambil file cover
 	file, err := c.FormFile("cover")
 	var filename string
 
 	if err == nil {
+		// Jika file ada dan tidak eror, buat nama unik dan simpan ke folder static/uploads
 		filename = time.Now().Format("20060102150405") + "_" + file.Filename
-		path := "uploads/" + filename
-		c.SaveUploadedFile(file, path)
+		c.SaveUploadedFile(file, "static/uploads/"+filename)
+	} else {
+		// Jika user tidak upload gambar/eror, biarkan string kosong agar tidak bikin crash
+		filename = ""
 	}
 
 	stokInt, _ := strconv.Atoi(stok)
@@ -62,43 +76,32 @@ func StoreBuku(c *gin.Context) {
 		Cover:       filename,
 	}
 
-	db.Create(&buku)
+	// Simpan ke Database
+	config.DB.Create(&buku)
 
-	c.Redirect(http.StatusFound, "/buku")
+	c.Redirect(http.StatusFound, "/admin/buku/?status=create")
 }
 
-func ShowBuku(c *gin.Context) {
-
-	id := c.Param("id")
-
-	var buku models.Buku
-	db.First(&buku, id)
-
-	c.HTML(http.StatusOK, "buku/show.html", gin.H{
-		"title": "Detail Buku",
-		"data":  buku,
-	})
-}
-
+// EDIT FORM
 func EditBuku(c *gin.Context) {
-
 	id := c.Param("id")
 
 	var buku models.Buku
-	db.First(&buku, id)
+	config.DB.First(&buku, id)
 
-	c.HTML(http.StatusOK, "buku/edit.html", gin.H{
+	c.HTML(http.StatusOK, "edit.html", gin.H{
 		"title": "Edit Buku",
 		"data":  buku,
 	})
 }
 
+// UPDATE
 func UpdateBuku(c *gin.Context) {
 
 	id := c.Param("id")
 
 	var buku models.Buku
-	db.First(&buku, id)
+	config.DB.First(&buku, id)
 
 	buku.Judul = c.PostForm("judul")
 	buku.Penulis = c.PostForm("penulis")
@@ -113,22 +116,25 @@ func UpdateBuku(c *gin.Context) {
 	file, err := c.FormFile("cover")
 	if err == nil {
 		filename := time.Now().Format("20060102150405") + "_" + file.Filename
-		path := "uploads/" + filename
-
-		c.SaveUploadedFile(file, path)
+		c.SaveUploadedFile(file, "static/uploads/"+filename)
 		buku.Cover = filename
 	}
 
-	db.Save(&buku)
+	config.DB.Save(&buku)
 
-	c.Redirect(http.StatusFound, "/buku")
+	c.Redirect(http.StatusFound, "/admin/buku/?status=update")
+
+	c.Redirect(http.StatusFound, "/admin/buku/")
 }
 
+// DELETE
 func DeleteBuku(c *gin.Context) {
 
 	id := c.Param("id")
 
-	db.Delete(&models.Buku{}, id)
+	config.DB.Delete(&models.Buku{}, id)
 
-	c.Redirect(http.StatusFound, "/buku")
+	c.Redirect(http.StatusFound, "/admin/buku/?status=delete")
+
+	c.Redirect(http.StatusFound, "/admin/buku/")
 }

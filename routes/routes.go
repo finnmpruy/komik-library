@@ -8,29 +8,30 @@ import (
 
 func SetupRoutes(r *gin.Engine) {
 
+	// AUTH
 	r.GET("/", controllers.LoginPage)
-
 	r.GET("/login", controllers.LoginPage)
-
 	r.POST("/login", controllers.Login)
 
 	r.GET("/register", controllers.RegisterPage)
-
 	r.POST("/register", controllers.Register)
 
+	// DASHBOARD
 	r.GET("/dashboardadmin", controllers.DashboardPage)
 
-	r.GET("/", controllers.Home)
+	// ADMIN BUKU
+	admin := r.Group("/admin")
+	{
+		buku := admin.Group("/buku")
+		{
+			buku.GET("/", controllers.IndexBuku)
+			buku.GET("/create", controllers.CreateBuku)
+			buku.POST("/store", controllers.StoreBuku)
 
-	r.GET("/buku", controllers.IndexBuku)
-	r.GET("/buku/create", controllers.CreateBuku)
-	r.POST("/buku/store", controllers.StoreBuku)
+			buku.GET("/edit/:id", controllers.EditBuku)
+			buku.POST("/update/:id", controllers.UpdateBuku)
 
-	r.GET("/buku/show/:id", controllers.ShowBuku)
-
-	r.GET("/buku/edit/:id", controllers.EditBuku)
-	r.POST("/buku/update/:id", controllers.UpdateBuku)
-
-	r.GET("/buku/delete/:id", controllers.DeleteBuku)
-
+			buku.GET("/delete/:id", controllers.DeleteBuku)
+		}
+	}
 }

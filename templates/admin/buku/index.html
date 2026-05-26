@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        *{ font-family: 'Poppins', sans-serif; }
+        body{ background: #f5f7fb; }
+        
+        /* SIDEBAR STYLES */
+        .sidebar{ width: 260px; height: 100vh; background: #0d6efd; position: fixed; left: 0; top: 0; padding-top: 20px; color: white; }
+        .sidebar h2{ text-align: center; font-weight: 700; margin-bottom: 40px; }
+        .sidebar a{ display: block; color: white; text-decoration: none; padding: 15px 25px; transition: 0.3s; font-size: 15px; }
+        .sidebar a:hover{ background: rgba(255,255,255,0.2); }
+        
+        /* MAIN CONTENT STYLES */
+        .main-content{ margin-left: 260px; padding: 30px; }
+        .topbar{ background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .table-container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .img-cover { width: 60px; height: 80px; object-fit: cover; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>📚 Komik Library</h2>
+        <a href="/dashboardadmin">Dashboard</a>
+        <a href="/admin/buku/" style="background: rgba(255,255,255,0.2);">Kelola Buku</a>
+        <a href="#">Kelola User</a>
+        <a href="#">Data Peminjaman</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar d-flex justify-content-between align-items-center">
+            <div>
+                <h4>Kelola Data Buku 📖</h4>
+                <p class="text-muted mb-0">Manajemen daftar komik di dalam sistem</p>
+            </div>
+            <a href="/admin/buku/create" class="btn btn-primary px-4 py-2" style="border-radius: 10px;">
+                ➕ Tambah Buku Baru
+            </a>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Cover</th>
+                        <th>Judul Komik</th>
+                        <th>Penulis</th>
+                        <th>Penerbit</th>
+                        <th>Tahun</th>
+                        <th>Stok</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range $index, $item := .data }}
+                    <tr>
+                        <td>{{ $index }}</td>
+                        <td>
+                            {{ if $item.Cover }}
+                            <img src="/static/uploads/{{ $item.Cover }}" class="img-cover" alt="Cover">
+                            {{ else }}
+                            <span class="badge bg-secondary">No Cover</span>
+                            {{ end }}
+                        </td>
+                        <td class="fw-bold">{{ $item.Judul }}</td>
+                        <td>{{ $item.Penulis }}</td>
+                        <td>{{ $item.Penerbit }}</td>
+                        <td>{{ $item.TahunTerbit }}</td>
+                        <td><span class="badge bg-info text-dark">{{ $item.Stok }} Pcs</span></td>
+                        <td class="text-center">
+                            <a href="/admin/buku/edit/{{ $item.ID }}" class="btn btn-warning btn-sm me-2 text-white">✏️ Edit</a>
+                            <a href="/admin/buku/delete/{{ $item.ID }}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus komik ini?')">🗑️ Hapus</a>
+                        </td>
+                    </tr>
+                    {{ else }}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">Belum ada data buku komik.</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const hasFlash = "{{ .flash }}";
+        if (hasFlash && hasFlash !== "")
+            Swal.fire({
+                title: 'Sukses!',
+                text: "{{ .flash }}",
+                icon: 'success',
+                timer: 3000, // Otomatis menutup dalam 3 detik
+                showConfirmButton: false,
+                background: '#ffffff',
+                customClass: {
+                    popup: 'animated fadeInDown'
+                }
+            });
+    </script>
+</body>
+</html>
