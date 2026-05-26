@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        *{ font-family: 'Poppins', sans-serif; }
+        body{ background: #f5f7fb; }
+        .sidebar{ width: 260px; height: 100vh; background: #0d6efd; position: fixed; left: 0; top: 0; padding-top: 20px; color: white; }
+        .sidebar h2{ text-align: center; font-weight: 700; margin-bottom: 40px; font-size: 22px; }
+        .sidebar a{ display: block; color: white; text-decoration: none; padding: 15px 25px; transition: 0.3s; font-size: 15px; }
+        .sidebar a:hover{ background: rgba(255,255,255,0.2); }
+        .main-content{ margin-left: 260px; padding: 30px; }
+        .topbar{ background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
+        .card-table { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .badge-dipinjam { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .badge-kembali { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>📚 Komik Library</h2>
+        <a href="/dashboardadmin">Dashboard</a>
+        <a href="/admin/buku/">Kelola Buku</a>
+        <a href="/admin/peminjaman/" style="background: rgba(255,255,255,0.2);">Data Peminjaman</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <div>
+                <h4 class="mb-0">Data Transaksi Peminjaman 📑</h4>
+                <p class="text-muted mb-0 small">Pantau peminjaman dan pengembalian komik oleh member</p>
+            </div>
+            <!-- <a href="#" class="btn btn-primary rounded-pill px-4">
+                <i class="fas fa-plus-circle me-2"></i>Tambah Pinjaman
+            </a> -->
+        </div>
+
+        <div class="card-table">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Member</th>
+                            <th>Judul Komik</th>
+                            <th>Tgl Pinjam</th>
+                            <th>Batas Kembali</th>
+                            <th>Status</th>
+                            <th>Denda</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ range .data }}
+                        <tr>
+                            <td class="fw-bold">{{ .User.Username }}</td>
+                            <td>{{ .Buku.Judul }}</td>
+                            <td>{{ .TanggalPinjam.Format "02 Jan 2006" }}</td>
+                            <td>{{ .BatasKembali.Format "02 Jan 2006" }}</td>
+                            <td>
+                                {{ if eq .Status "Dipinjam" }}
+                                <span class="badge badge-dipinjam px-3 py-2 rounded-pill">Dipinjam</span>
+                                {{ else }}
+                                <span class="badge badge-kembali px-3 py-2 rounded-pill">Kembali</span>
+                                {{ end }}
+                            </td>
+                            <td class="text-danger fw-bold">Rp {{ .Denda }}</td>
+                            <td class="text-center">
+                                {{ if eq .Status "Dipinjam" }}
+                                <a href="#" class="btn btn-sm btn-success px-3 rounded-pill">
+                                    <i class="fas fa-undo me-1"></i> Kembalikan
+                                </a>
+                                {{ else }}
+                                <span class="text-muted small italic">Selesai</span>
+                                {{ end }}
+                            </td>
+                        </tr>
+                        {{ else }}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">Belum ada transaksi peminjaman.</td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

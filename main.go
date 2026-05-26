@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	// DEBUG WORKDIR (penting untuk kasus kamu)
+	// DEBUG WORKDIR
 	dir, _ := os.Getwd()
 	fmt.Println("WORKDIR:", dir)
 
@@ -25,6 +25,7 @@ func main() {
 	config.DB.AutoMigrate(
 		&models.Buku{},
 		&models.User{},
+		&models.Peminjaman{},
 	)
 
 	// ENGINE
@@ -35,15 +36,17 @@ func main() {
 		"templates/auth/login.html",
 		"templates/auth/register.html",
 		"templates/admin/dashboard.html",
-
-		// File di dalam sub-folder buku
 		"templates/admin/buku/index.html",
 		"templates/admin/buku/create.html",
-		"templates/admin/buku/edit.html",
+		"templates/admin/buku/edit.html", // Baris duplikat sudah dihapus
+		"templates/admin/peminjaman/index_peminjaman.html",
+		"templates/user/dashboard_user.html",
 	)
 
-	// STATIC FILE
+	// ====== BAGIAN STATIC FILES DISATUKAN DI SINI ======
 	r.Static("/static", "./static")
+
+	r.Static("/assets/uploads", "./static/uploads")
 
 	// ROUTES
 	routes.SetupRoutes(r)

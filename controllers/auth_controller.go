@@ -39,10 +39,9 @@ func Login(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/dashboardadmin")
 
 		return
-	}
 
-	// JIKA USER BIASA
-	c.String(http.StatusOK, "Login user berhasil")
+	}
+	c.Redirect(http.StatusSeeOther, "/dashboarduser")
 }
 
 func RegisterPage(c *gin.Context) {
